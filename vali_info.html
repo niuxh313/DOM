@@ -1,0 +1,101 @@
+<!doctype html>
+<html>
+ <head>
+	<meta charset="UTF-8">
+	<title>实现带样式的表单验证</title>
+	<link rel="Stylesheet" href="css/5.css" />
+ </head>
+ <body>
+	<form id="form1">
+		<h2>增加管理员</h2>
+		<table>
+			<tr>
+				<td>姓名：</td>
+        <td>
+					<input name="username"/>
+					<span>*</span>
+				</td>
+				<td>
+					<div class="vali_info">
+						10个字符以内的字母、数字或下划线的组合
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td>密码：</td>
+				<td>
+					<input type="password" name="pwd"/>
+					<span>*</span>
+				</td>
+				<td>
+					<div class="vali_info">6位数字</div>
+				</td>
+			</tr>
+			<tr>
+				<td></td>
+				<td colspan="2">
+          <input type="submit" value="保存"/>
+          <input type="reset" value="重填"/>
+				</td>
+			</tr>				
+	    </table>
+	</form>
+
+	<script>
+		// 1.找到触发事件的元素
+		// 当前的触发事件是input框<input name="username"/>
+		var uname=document.getElementsByName("username")[0];
+		//由于getElementsByName获得的是一个集合，不知一个元素，所以要用下标标记
+		// 2.绑定时间处理函数
+		uname.onfocus=function(){
+			// 获取焦点之后提示信息的div显示出来
+			// 3.找到修改的元素
+			var div=this.parentNode.nextElementSibling.children[0];
+			// 4.修改元素
+			//让这个div显示的话就是之前是display none，现在让它没有这个class.vali_info即可。
+			div.className="";
+		}
+		// 失去焦点且信息正确之后div消失
+		uname.onblur=function(){
+			var div=this.parentNode.nextElementSibling.children[0];
+			// 用正则来规范信息格式
+			var reg=/^\w{1,10}$/;
+			// 用正则验证是否正确，test验证
+			if(reg.test(this.value)==true){
+				div.className="vali_success";
+			}else{
+				div.className="vali_fail";
+			}
+		}
+
+		// 验证密码
+		//1.找到触发事件的元素
+		// 当前的是密码输入框<input type="password" name="pwd"/>
+		var pwd=document.getElementsByName("pwd")[0];
+		//2.绑定时间处理函数
+		pwd.onfocus=function(){
+			//3.找到修改的元素
+			var div=this.parentNode.nextElementSibling.children[0];
+			// 4.修改元素
+			// div显示
+			div.className="";
+		}
+		
+		// 失去焦点且信息正确div消失
+
+		pwd.onblur=function(){
+			//找到修改的元素
+			var div=this.parentNode.nextElementSibling.children[0];
+			// 首先验证密码是否符合要求
+			var reg=/^\d{6}$/;
+			if(reg.test(this.value)==true){
+				div.className="vali_success";
+			}else{
+				div.className="vali_fail";
+			}
+
+		}
+		
+	</script>
+ </body>
+</html>
