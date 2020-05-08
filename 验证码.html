@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>简易验证码</title>
+    <style>
+        .msg{
+            width: 150px;
+            height: 50px;
+            text-align: center;
+            line-height: 50px;
+            font-size: 26px;
+            font-weight: 600;
+            color: blue;
+            background-color: #D8B7E3;
+            font-style: italic;
+        }
+        .warp>div{
+            float: left;
+        }
+        .warp{
+            height: 60px;
+        }
+        .warp a{
+            color: green;
+            display: inline-block;
+            line-height: 50px;
+            margin-left: 20px;
+            text-decoration: none;
+        }
+        a:hover{
+            text-decoration:underline;
+        }
+        .msg{
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="warp">
+        <div class="msg" id="msg" onclick='createCode(4)'></div>
+        <div><a href="javascript:createCode(4)">看不清换一张</a></div>
+    </div>
+    
+
+
+
+    
+    <input type="text" id="inp" placeholder="请输入验证码">
+    <button id="btn" onclick="Verification()">按钮</button>
+
+    <script>
+        //生成验证码
+        function createCode(length){
+            //声明空字符串,用来装随机出来的字母和数字
+            var code = '';
+            //声明变量,装验证码所需的长度
+            var codeLength = length
+            console.log(length);
+            //获取验证码显示区域
+            var msg = document.getElementById('msg');
+            //声明数组,放验证码所需的候选字符
+            var arr = [1,2,3,4,5,6,7,8,9,0,
+                'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
+                'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'
+            ];
+            //设置循环
+            for(var i = 0;i < codeLength;i++){
+                //随机获取下标值,取整
+                var charNum = Math.floor(Math.random() * 62);
+                //字符串拼接,随机获取下标值对应的字符
+                code += arr[charNum]
+            }
+           msg.innerHTML = code;
+
+
+        }
+
+        //验证
+        function Verification(){
+            //获取input中的value值
+            var inp = document.getElementById('inp').value;
+            //获取随机生成的验证码
+            var code = msg.innerHTML;
+            //进行验证
+            if(inp.length<=0){
+                alert('不能为空')
+            }else if(inp.toUpperCase() != code.toUpperCase()){  //当inp的大写!=code的大写时
+                alert('验证码不正确')
+            }else{
+                alert('验证通过');
+                //刷新页面
+                location.href='验证码.html';
+                
+            }
+        }
+
+        //页面重新加载时,生成随机验证码
+        window.onload = function () {
+            createCode(4);
+        };
+    </script>
+</body>
+</html>
